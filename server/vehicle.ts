@@ -1,10 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Vehicle } from "@/types/Vehicle";
+import {
+  Vehicle,
+  VehicleListSchema,
+  VehicleSchema,
+  VehicleMutableFields,
+} from "@/types/Vehicle";
+import { supabase } from "./supabase";
+import { VEHICLE_TABLE } from "@/constants";
+import { v4 as uuidv4 } from "uuid";
 
-export const getVehicles = (userId: string) => {
-  // TODO: Return vehicles that are associated with this userId
-  return;
+export const getVehicles = async (userId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from(VEHICLE_TABLE)
+      .select()
+      .eq("userId", userId);
+    if (error) throw error;
+    return VehicleListSchema.parse(data);
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
 };
 
 export const getVehicle = (userId: string, vehicleId: string) => {
@@ -12,21 +29,28 @@ export const getVehicle = (userId: string, vehicleId: string) => {
   return;
 };
 
-export const createVehicle = (
+export const createVehicle = async (
   userId: string,
-  name: string,
-  mileage: number,
-  year: number,
-  make: string,
-  model: string,
-  licensePlate: string,
-  vin: string,
-  notes: string,
-  imageBytes?: string,
+  data: VehicleMutableFields,
 ) => {
   // TODO: If imageBytes provided, call uploadVehicleImage
-  // TODO: Create vehicle from args and insert into DB
-  return;
+  const newVehicle = VehicleSchema.parse({
+    id: uuidv4(),
+    userId,
+    name: data.name,
+    mileage: data.mileage,
+    year: data.year,
+    make: data.make,
+    model: data.model,
+    licensePlate: data.licensePlate,
+    vin: data.vin,
+    notes: data.notes,
+    dateCreated: new Date().getTime(),
+    sharedWith: [],
+  });
+  const dbRes = await supabase.from(VEHICLE_TABLE).insert(newVehicle);
+  if (dbRes.error) throw dbRes.error;
+  return newVehicle;
 };
 
 export const updateVehicle = (

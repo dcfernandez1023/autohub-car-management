@@ -1,5 +1,17 @@
 import z from "zod";
 
+export type VehicleMutableFields = {
+  name: string;
+  mileage: number;
+  year: number;
+  make: string;
+  model: string;
+  licensePlate: string;
+  vin: string;
+  notes: string;
+  imageBytes?: string;
+};
+
 export const VehicleSchema = z.object({
   id: z.string(),
   userId: z.string(),
@@ -15,5 +27,6 @@ export const VehicleSchema = z.object({
   sharedWith: z.array(z.string()),
   imageUrl: z.string().optional(),
 });
+export const VehicleListSchema = z.array(VehicleSchema);
 
 export type Vehicle = z.infer<typeof VehicleSchema>;

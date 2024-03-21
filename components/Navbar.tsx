@@ -2,10 +2,11 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { getUser } from "@/server/auth";
 import Link from "next/link";
 import { NavbarSettingsMenu } from "./NavbarSettingsMenu";
-// import { logout } from "@/client/auth";
+import { cookies } from "next/headers";
+import { AUTOHUB_ACCESS_TOKEN } from "@/constants";
 
 export const Navbar = async () => {
-  const user = await getUser();
+  const user = await getUser(cookies().get(AUTOHUB_ACCESS_TOKEN)?.value);
   return (
     <Flex
       as="nav"

@@ -8,19 +8,22 @@ import { useEffect } from "react";
  */
 export default function Page() {
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
+    const urlHash = window.location.hash.substring(1);
+    const urlParams = new URLSearchParams(urlHash);
+    const accessToken = urlParams.get("access_token");
+    const refreshToken = urlParams.get("refresh_token");
     const completeRegistration = async () => {
       try {
         // Complete registration by marking user as confirmed sign in on server-side
-        const res = await axios.post("/api/auth/confirm", { code });
-        if (res.status !== 200)
-          alert("Failed to verify your registration, please try again");
-      } catch (err: unknown) {
-        console.error(err);
+        const res = await axios.post("/api/auth/confirm", {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        });
+        if (res.status === 200) window.location.href = "/";
+        else window.location.href = "/error";
+      } catch (e) {
         alert("An unexpected error occurred");
-      } finally {
-        window.location.href = "/";
+        window.location.href = "/error";
       }
     };
 
