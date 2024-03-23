@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Box, Button, Center, Heading, SimpleGrid } from "@chakra-ui/react";
 import { VehicleModal } from "./VehicleModal";
 import { createVehicle } from "@/client/vehicle";
+import { VehicleCard } from "./VehicleCard";
 
 interface Props {
   vehicles: Vehicle[];
@@ -17,6 +18,8 @@ export const VehicleList = ({ vehicles }: Props) => {
     <Box>
       <VehicleModal
         show={show}
+        title="Create Vehicle"
+        buttonText="Create"
         onSubmit={(data: VehicleMutableFields) => void createVehicle(data)}
         onClose={() => setShow(false)}
       />
@@ -33,8 +36,10 @@ export const VehicleList = ({ vehicles }: Props) => {
       {vehicles.length === 0 && (
         <Center minH="40vh">Click + to add a vehicle</Center>
       )}
+      <br />
+      <br />
       {vehicles.map((vehicle: Vehicle) => (
-        <div key={vehicle.id}>{vehicle.name}</div>
+        <VehicleCard key={vehicle.id} vehicle={vehicle} />
       ))}
     </Box>
   );

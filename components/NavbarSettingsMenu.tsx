@@ -13,10 +13,15 @@ export const NavbarSettingsMenu = () => {
         mr={{ base: 2, md: 4 }}
         _hover={{ bg: "blue.700" }}
       >
-        Settings
+        Menu
       </MenuButton>
       <MenuList>
         <MenuItem>Profile</MenuItem>
+        <MenuItem
+          onClick={() => (window.location.href = "/client/scheduledServices")}
+        >
+          Scheduled Services
+        </MenuItem>
         <MenuItem onClick={() => void logout()}>Logout</MenuItem>
       </MenuList>
     </Menu>

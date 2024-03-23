@@ -9,7 +9,7 @@ export type VehicleMutableFields = {
   licensePlate: string;
   vin: string;
   notes: string;
-  imageBytes?: string;
+  base64Image?: string;
 };
 
 export const VehicleSchema = z.object({
