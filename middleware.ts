@@ -7,11 +7,9 @@ export async function middleware(req: NextRequest) {
     console.log(`Running middleware on ${req.url}`);
     if (req.url.includes("/api/auth")) return NextResponse.next();
     const refreshToken = req.cookies.get(AUTOHUB_REFRESH_TOKEN)?.value;
-    console.log(refreshToken);
     const newAuth = await supabase.auth.refreshSession({
       refresh_token: refreshToken || "",
     });
-    console.log(newAuth);
     if (newAuth.data.session) {
       console.log("Refreshed session successfully");
       const res = NextResponse.next();
@@ -28,11 +26,7 @@ export async function middleware(req: NextRequest) {
         },
       );
       return res;
-    } /*else {
-      // TODO: Investigate callback loop when attempting to refresh session
-      console.log("Failed to refresh session");
-      return NextResponse.redirect(new URL("/login", req.url));
-    }*/
+    }
   } catch (e) {
     console.error(e);
     return NextResponse.redirect(new URL("/error", req.url));

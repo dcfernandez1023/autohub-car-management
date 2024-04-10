@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  console.log(params);
   const { id } = params;
   const user = await getUser(cookies().get(AUTOHUB_ACCESS_TOKEN)?.value);
   if (!user) redirect("/login");

@@ -16,7 +16,6 @@ interface Props {
 }
 
 export const VehicleCard = ({ vehicle }: Props) => {
-  console.log(vehicle.imageUrl || "car-holder.png");
   return (
     <Card
       direction={{ base: "column", sm: "row" }}

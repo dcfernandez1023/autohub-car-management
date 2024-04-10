@@ -88,7 +88,6 @@ export const updateVehicle = async (
   if (data.base64Image) {
     if (vehicle.imageUrl) {
       const imageId = getImageIdFromUrl(vehicle.imageUrl);
-      console.log(imageId);
       await deleteVehicleImage(imageId);
     }
     vehicle.imageUrl = await uploadVehicleImage(data.base64Image);

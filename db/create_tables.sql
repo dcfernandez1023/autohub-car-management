@@ -31,12 +31,12 @@ CREATE TABLE scheduled_service_type (
 );
 
 CREATE TABLE vehicle_schedule (
+  userId UUID NOT NULL,
   vehicleId UUID NOT NULL,
   sstId UUID NOT NULL,
   mileInterval INTEGER NOT NULL,
   timeInterval INTERVAL NOT NULL,
   timeUnits VARCHAR(10) NOT NULL CHECK (timeUnits IN ('day', 'week', 'month', 'year')),
-  PRIMARY KEY (vehicleId)
 );
 
 CREATE TABLE scheduled_service_log (
