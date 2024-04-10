@@ -37,7 +37,7 @@ export const signin = async (email: string, password: string) => {
     }
 
     const res = await axios.post("/api/auth/signin", { email, password });
-    if (res.status === 200) window.location.href = "/";
+    if (res.status === 200) window.location.href = "/client/home";
     else alert("Sign-in failed. Please try again.");
   } catch (e) {
     console.error(e);
